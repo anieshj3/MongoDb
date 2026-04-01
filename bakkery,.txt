@@ -16,6 +16,4 @@ show collections
 Orders
 db.dropDatabase()
 { ok: 1, dropped: 'Bakeryshop' }
-Bakeryshop
-
-
+Bakerysho
