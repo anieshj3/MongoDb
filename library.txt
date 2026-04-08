@@ -1,0 +1,167 @@
+use library
+switched to db library
+db.Books.insertMany([
+    { title: "Pride and Prejudice", author: "Jane Austen", year: 1813, copies: 8, available: true },
+    { title: "Data Structures", author: "John Smith", year: 2015, copies: 3, available: true },
+    { title: "Modern JavaScript", author: "Emily Brown", year: 2020, copies: 4, available: false },
+    { title: "The Great Gatsby", author: "F. Scott Fitzgerald", year: 1925, copies: 6, available: true },
+    { title: "To Kill a Mockingbird", author: "Harper Lee", year: 1960, copies: 10, available: true },
+    { title: "A Brief History of Time", author: "Stephen Hawking", year: 1988, copies: 2, available: false },
+    { title: "The C Programming Language", author: "Unknown", year: 1978, copies: 5, available: true },
+    { title: "Sapiens", author: "Yuval Noah Harari", year: 2014, copies: 7, available: true },
+    { title: "The Alchemist", author: "Paulo Coelho", year: 1988, copies: 1, available: false },
+    { title: "Dune", author: "Frank Herbert", year: 1965, copies: 4, available: true }
+]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69d5d413d8e519bcc59ee356'),
+    '1': ObjectId('69d5d413d8e519bcc59ee357'),
+    '2': ObjectId('69d5d413d8e519bcc59ee358'),
+    '3': ObjectId('69d5d413d8e519bcc59ee359'),
+    '4': ObjectId('69d5d413d8e519bcc59ee35a'),
+    '5': ObjectId('69d5d413d8e519bcc59ee35b'),
+    '6': ObjectId('69d5d413d8e519bcc59ee35c'),
+    '7': ObjectId('69d5d413d8e519bcc59ee35d'),
+    '8': ObjectId('69d5d413d8e519bcc59ee35e'),
+    '9': ObjectId('69d5d413d8e519bcc59ee35f')
+  }
+}
+db.Books.find(
+    { year: { $gt: 2010 } },
+    { _id: 0, title: 1, author: 1, year: 1, copies: 1, available: 1 }
+).pretty()
+{
+  title: 'Data Structures',
+  author: 'John Smith',
+  year: 2015,
+  copies: 3,
+  available: true
+}
+{
+  title: 'Modern JavaScript',
+  author: 'Emily Brown',
+  year: 2020,
+  copies: 4,
+  available: false
+}
+{
+  title: 'Sapiens',
+  author: 'Yuval Noah Harari',
+  year: 2014,
+  copies: 7,
+  available: true
+}
+db.Books.findOne({ author: "Jane Austen" })
+{
+  _id: ObjectId('69d5d413d8e519bcc59ee356'),
+  title: 'Pride and Prejudice',
+  author: 'Jane Austen',
+  year: 1813,
+  copies: 8,
+  available: true
+}
+db.Books.find({copies: { $gt: 5 }, year: { $lte: 2000 }})
+{
+  _id: ObjectId('69d5d413d8e519bcc59ee356'),
+  title: 'Pride and Prejudice',
+  author: 'Jane Austen',
+  year: 1813,
+  copies: 8,
+  available: true
+}
+{
+  _id: ObjectId('69d5d413d8e519bcc59ee359'),
+  title: 'The Great Gatsby',
+  author: 'F. Scott Fitzgerald',
+  year: 1925,
+  copies: 6,
+  available: true
+}
+{
+  _id: ObjectId('69d5d413d8e519bcc59ee35a'),
+  title: 'To Kill a Mockingbird',
+  author: 'Harper Lee',
+  year: 1960,
+  copies: 10,
+  available: true
+}
+db.Books.find({$or: [{ copies: { $lt: 3 } },{ available: false }]})
+{
+  _id: ObjectId('69d5d413d8e519bcc59ee358'),
+  title: 'Modern JavaScript',
+  author: 'Emily Brown',
+  year: 2020,
+  copies: 4,
+  available: false
+}
+{
+  _id: ObjectId('69d5d413d8e519bcc59ee35b'),
+  title: 'A Brief History of Time',
+  author: 'Stephen Hawking',
+  year: 1988,
+  copies: 2,
+  available: false
+}
+{
+  _id: ObjectId('69d5d413d8e519bcc59ee35e'),
+  title: 'The Alchemist',
+  author: 'Paulo Coelho',
+  year: 1988,
+  copies: 1,
+  available: false
+}
+db.Books.update({ title: "Data Structures" },{ $set: { copies: 10 } })
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+var book = db.Books.findOne({ title: "Modern JavaScript" });book.available = true;db.Books.save(book);
+TypeError: db.Books.save is not a function
+var book = db.Books.findOne({ title: "Modern JavaScript" });
+
+book.available = true;
+
+db.Books.save(book);
+TypeError: db.Books.save is not a function
+var book = db.Books.findOne({ title: "Modern JavaScript" });
+
+Book.available = true;
+
+db.Books.save(Book);
+ReferenceError: Book is not defined
+var Book = db.Books.findOne({ title: "Modern JavaScript" });
+
+Book.available = true;
+
+db.Books.save(Book);
+TypeError: db.Books.save is not a function
+var Book = db.library.findOne({ title: "Modern JavaScript" });
+
+Book.available = true;
+
+db.library.save(Book);
+TypeError: Cannot set properties of null (setting 'available')
+db.Books.deleteOne({ author: "Unknown" })
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+db.Books.updateOne(
+    { title: "Modern JavaScript" },
+    { $set: { available: true } }
+)
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+library
+
+
