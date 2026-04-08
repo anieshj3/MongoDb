@@ -1,0 +1,185 @@
+use clothing
+switched to db clothing
+db.Clothes.insertMany([
+    { name: "Denim Jeans", category: "Pants", price: 599.99, stock: 20, discount: true },
+    { name: "Cotton T-Shirt", category: "Shirt", price: 199.99, stock: 15, discount: false },
+    { name: "Leather Jacket", category: "Jacket", price: 999.99, stock: 5, discount: true },
+    { name: "Formal Shirt", category: "Shirt", price: 349.99, stock: 12, discount: true },
+    { name: "Cargo Pants", category: "Pants", price: 499.99, stock: 8, discount: false },
+    { name: "Wool Sweater", category: "Sweater", price: 699.99, stock: 10, discount: true },
+    { name: "Casual Shorts", category: "Shorts", price: 249.99, stock: 25, discount: true },
+    { name: "Silk Scarf", category: "Accessories", price: 149.99, stock: 0, discount: false },
+    { name: "Hooded Sweatshirt", category: "Sweater", price: 399.99, stock: 18, discount: true },
+    { name: "Chinos", category: "Pants", price: 299.99, stock: 11, discount: false }
+]);
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('69d5d6ced8e519bcc59ee360'),
+    '1': ObjectId('69d5d6ced8e519bcc59ee361'),
+    '2': ObjectId('69d5d6ced8e519bcc59ee362'),
+    '3': ObjectId('69d5d6ced8e519bcc59ee363'),
+    '4': ObjectId('69d5d6ced8e519bcc59ee364'),
+    '5': ObjectId('69d5d6ced8e519bcc59ee365'),
+    '6': ObjectId('69d5d6ced8e519bcc59ee366'),
+    '7': ObjectId('69d5d6ced8e519bcc59ee367'),
+    '8': ObjectId('69d5d6ced8e519bcc59ee368'),
+    '9': ObjectId('69d5d6ced8e519bcc59ee369')
+  }
+}
+db.Clothes.find(
+    { price: { $gt: 500 } },
+    { _id: 0, name: 1, category: 1, price: 1, stock: 1, discount: 1 }
+).pretty()
+{
+  name: 'Denim Jeans',
+  category: 'Pants',
+  price: 599.99,
+  stock: 20,
+  discount: true
+}
+{
+  name: 'Leather Jacket',
+  category: 'Jacket',
+  price: 999.99,
+  stock: 5,
+  discount: true
+}
+{
+  name: 'Wool Sweater',
+  category: 'Sweater',
+  price: 699.99,
+  stock: 10,
+  discount: true
+}
+db.Clothes.findOne({ category: "Shirt" })
+{
+  _id: ObjectId('69d5d6ced8e519bcc59ee361'),
+  name: 'Cotton T-Shirt',
+  category: 'Shirt',
+  price: 199.99,
+  stock: 15,
+  discount: false
+}
+db.Clothes.find({ price: { $lte: 300 }, stock: { $gt: 10 }})
+{
+  _id: ObjectId('69d5d6ced8e519bcc59ee361'),
+  name: 'Cotton T-Shirt',
+  category: 'Shirt',
+  price: 199.99,
+  stock: 15,
+  discount: false
+}
+{
+  _id: ObjectId('69d5d6ced8e519bcc59ee366'),
+  name: 'Casual Shorts',
+  category: 'Shorts',
+  price: 249.99,
+  stock: 25,
+  discount: true
+}
+{
+  _id: ObjectId('69d5d6ced8e519bcc59ee369'),
+  name: 'Chinos',
+  category: 'Pants',
+  price: 299.99,
+  stock: 11,
+  discount: false
+}
+db.Clothes.find({$or: [{ price: { $lt: 200 } }, { discount: true }]})
+{
+  _id: ObjectId('69d5d6ced8e519bcc59ee360'),
+  name: 'Denim Jeans',
+  category: 'Pants',
+  price: 599.99,
+  stock: 20,
+  discount: true
+}
+{
+  _id: ObjectId('69d5d6ced8e519bcc59ee361'),
+  name: 'Cotton T-Shirt',
+  category: 'Shirt',
+  price: 199.99,
+  stock: 15,
+  discount: false
+}
+{
+  _id: ObjectId('69d5d6ced8e519bcc59ee362'),
+  name: 'Leather Jacket',
+  category: 'Jacket',
+  price: 999.99,
+  stock: 5,
+  discount: true
+}
+{
+  _id: ObjectId('69d5d6ced8e519bcc59ee363'),
+  name: 'Formal Shirt',
+  category: 'Shirt',
+  price: 349.99,
+  stock: 12,
+  discount: true
+}
+{
+  _id: ObjectId('69d5d6ced8e519bcc59ee365'),
+  name: 'Wool Sweater',
+  category: 'Sweater',
+  price: 699.99,
+  stock: 10,
+  discount: true
+}
+{
+  _id: ObjectId('69d5d6ced8e519bcc59ee366'),
+  name: 'Casual Shorts',
+  category: 'Shorts',
+  price: 249.99,
+  stock: 25,
+  discount: true
+}
+{
+  _id: ObjectId('69d5d6ced8e519bcc59ee367'),
+  name: 'Silk Scarf',
+  category: 'Accessories',
+  price: 149.99,
+  stock: 0,
+  discount: false
+}
+{
+  _id: ObjectId('69d5d6ced8e519bcc59ee368'),
+  name: 'Hooded Sweatshirt',
+  category: 'Sweater',
+  price: 399.99,
+  stock: 18,
+  discount: true
+}
+db.Clothes.update({ name: "Denim Jeans" },{ $set: { stock: 50 } })
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+var item = db.Clothes.findOne({ name: "Leather Jacket" });
+
+item.price = 1200;
+
+db.Clothes.replaceOne(
+    { _id: item._id },
+    item
+);
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+db.Clothes.deleteOne({ stock: 0 })
+{
+  acknowledged: true,
+  deletedCount: 1
+}
+clothing
+Selection deleted
+
+
