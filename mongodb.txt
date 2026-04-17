@@ -1,0 +1,5 @@
+use mashupdb
+db.posts.createIndex({ title: "text", content: "text" })
+db.posts.find({ $text: { $search: "mongodb" } })
+db.posts.getIndexes()
+db.posts.dropIndex("title_text_content_text")
