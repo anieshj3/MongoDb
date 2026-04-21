@@ -1,0 +1,68 @@
+use mashupdb
+switched to db mashupdb
+db.employee.insertMany([
+  { id: 1, Name: "Raju", Department: "Sales", Leave: 1 },
+  { id: 2, Name: "Sangeetha", Department: "Sales", Leave: 3 },
+  { id: 3, Name: "Vinay", Department: "Operations", Leave: 8 },
+  { id: 4, Name: "Abey", Department: "Packing", Leave: 2 },
+  { id: 5, Name: "Thomas", Department: "Packing", Leave: 1 },
+  { id: 6, Name: "Muneer", Department: "Operations", Leave: 7 },
+  { id: 7, Name: "Aparna", Department: "Sales", Leave: 3 },
+  { id: 8, Name: "Abid", Department: "Operations", Leave: 9 },
+  { id: 9, Name: "Fathima", Department: "Sales", Leave: 11 },
+  { id: 10, Name: "Varghese", Department: "Operations", Leave: 14 }
+])db.exam.insertMany([
+  { id: 1, Employee_id: 2, exam_status: "Pass" },
+  { id: 2, Employee_id: 5, exam_status: "Fail" },
+  { id: 3, Employee_id: 1, exam_status: "Fail" },
+  { id: 4, Employee_id: 8, exam_status: "Pass" },
+  { id: 5, Employee_id: 3, exam_status: "Pass" },
+  { id: 6, Employee_id: 1, exam_status: "Pass" },
+  { id: 7, Employee_id: 6, exam_status: "Fail" },
+  { id: 8, Employee_id: 9, exam_status: "Pass" },
+  { id: 9, Employee_id: 10, exam_status: "Pass" }
+])
+db.employee.find({Department: "Sales",Leave: { $gt: 5 }})
+
+db.employee.countDocuments({Department: "Operations"})
+
+db.employee.aggregate([
+  {
+    $group: {
+      _id: "$Department",
+      count: { $sum: 1 }
+    }
+  }
+])
+
+db.employee.aggregate([
+  {$group: {_id: "$Department",totalLeaves: { $sum: "$Leave" }}},
+  {$match: {totalLeaves: { $gt: 10 }}}])
+  
+  db.employee.aggregate([
+  {
+    $lookup: {
+      from: "exam",
+      localField: "id",
+      foreignField: "Employee_id",
+      as: "exam_data"}},
+  { $unwind: "$exam_data" },
+  {$match: {"exam_data.exam_status": "Pass"}},
+  {
+    $project: {
+      _id: 0,
+      Name: 1}}])
+
+      db.employee.aggregate([
+  {$lookup: {
+      from: "exam",
+      localField: "id",
+      foreignField: "Employee_id",
+      as: "exam_data"
+    }},
+  {$match: {
+      exam_data: { $size: 0 }} },
+  {$project: {
+      _id: 0,
+      Name: 1}}])
+
