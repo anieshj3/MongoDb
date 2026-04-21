@@ -1,0 +1,10 @@
+use BakeryShop
+db.Orders.insertOne({
+  customerName: "Alice Johnson",
+  item: "Chocolate Cake",
+  quantity: 2,
+  totalPrice: 500
+})
+show collections
+db.Orders.drop()
+db.dropDatabase()
